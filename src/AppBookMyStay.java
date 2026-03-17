@@ -26,12 +26,21 @@ public class AppBookMyStay {
         bookingQueue.addRequest(new Reservation("Isai", "Single Room"));
         bookingQueue.addRequest(new Reservation("Chris", "Suite Room"));
         bookingQueue.addRequest(new Reservation("Alex", "Double Room"));
+        bookingQueue.addRequest(new Reservation("Luna", "Single Room"));
 
-        // Display booking queue
-        bookingQueue.displayQueue();
+        // Booking service
+        BookingService bookingService = new BookingService(inventory);
 
-        // Display available rooms (read-only)
-        List<Room> availableRooms = searchService.getAvailableRooms(rooms);
-        searchService.displayAvailableRooms(availableRooms);
+        // Process queue
+        while (!bookingQueue.isEmpty()) {
+            Reservation res = bookingQueue.getNextRequest();
+            bookingService.confirmReservation(res);
+        }
+
+        // Show allocations
+        bookingService.displayAllocations();
+
+        // Show updated inventory
+        inventory.displayInventory();
     }
 }
