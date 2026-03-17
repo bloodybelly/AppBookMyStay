@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class AppBookMyStay {
 
     public static void main(String[] args) {
@@ -9,25 +12,18 @@ public class AppBookMyStay {
         Room doubleRoom = new DoubleRoom();
         Room suite = new SuiteRoom();
 
-        // Inventory (NEW)
+        List<Room> rooms = Arrays.asList(single, doubleRoom, suite);
+
+        // Inventory
         RoomInventory inventory = new RoomInventory();
 
-        System.out.println("\n--- Room Details ---");
+        // Room search service
+        RoomSearchService searchService = new RoomSearchService(inventory);
 
-        single.displayDetails();
-        System.out.println("Available: " + inventory.getAvailability("Single Room"));
+        // Get available rooms
+        List<Room> availableRooms = searchService.getAvailableRooms(rooms);
 
-        System.out.println();
-
-        doubleRoom.displayDetails();
-        System.out.println("Available: " + inventory.getAvailability("Double Room"));
-
-        System.out.println();
-
-        suite.displayDetails();
-        System.out.println("Available: " + inventory.getAvailability("Suite Room"));
-
-        // Show full inventory
-        inventory.displayInventory();
+        // Display
+        searchService.displayAvailableRooms(availableRooms);
     }
 }
