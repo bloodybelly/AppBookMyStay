@@ -1,16 +1,18 @@
-public abstract class Room {
+abstract class Room {
 
-    protected String type;
+    protected String roomType;
     protected int beds;
     protected double price;
 
-    public Room(String type, int beds, double price) {
-        this.type = type;
+    public Room(String roomType, int beds, double price) {
+        this.roomType = roomType;
         this.beds = beds;
         this.price = price;
     }
 
-    public void displayRoomDetails() {
-        System.out.println(type + " | Beds: " + beds + " | Price: " + price);
+    public void displayDetails() {
+        System.out.println("Room Type: " + roomType);
+        System.out.println("Beds: " + beds);
+        System.out.println("Price: ₹" + price);
     }
 }
