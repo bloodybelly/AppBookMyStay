@@ -4,36 +4,18 @@ public class AppBookMyStay {
 
         System.out.println("===== Welcome to BookMyStay =====");
 
-        // Inventory & Booking setup
         RoomInventory inventory = new RoomInventory();
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
         BookingService bookingService = new BookingService(inventory);
 
-        // Sample bookings
-        bookingQueue.addRequest(new Reservation("Isai", "Single Room"));
-        bookingQueue.addRequest(new Reservation("Chris", "Suite Room"));
+        // Test bookings
+        Reservation r1 = new Reservation("Isai", "Single Room"); // valid
+        Reservation r2 = new Reservation("", "Double Room"); // invalid guest
+        Reservation r3 = new Reservation("Chris", "Penthouse"); // invalid room type
+        Reservation r4 = new Reservation("Alex", "Suite Room"); // valid
 
-        // Process reservations
-        while (!bookingQueue.isEmpty()) {
-            Reservation res = bookingQueue.getNextRequest();
-            bookingService.confirmReservation(res);
-        }
-
-        // Add-On Service Manager
-        AddOnServiceManager addOnManager = new AddOnServiceManager();
-
-        // Sample services
-        AddOnService breakfast = new AddOnService("Breakfast", 500);
-        AddOnService spa = new AddOnService("Spa Session", 1500);
-        AddOnService airport = new AddOnService("Airport Pickup", 700);
-
-        // Map services to reservations
-        addOnManager.addService("SI-5", breakfast);
-        addOnManager.addService("SI-5", spa);
-        addOnManager.addService("SU-2", airport);
-
-        // Display add-ons
-        addOnManager.displayAddOns("SI-5");
-        addOnManager.displayAddOns("SU-2");
+        bookingService.confirmReservation(r1);
+        bookingService.confirmReservation(r2);
+        bookingService.confirmReservation(r3);
+        bookingService.confirmReservation(r4);
     }
 }
