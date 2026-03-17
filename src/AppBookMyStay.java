@@ -11,7 +11,6 @@ public class AppBookMyStay {
         Room single = new SingleRoom();
         Room doubleRoom = new DoubleRoom();
         Room suite = new SuiteRoom();
-
         List<Room> rooms = Arrays.asList(single, doubleRoom, suite);
 
         // Inventory
@@ -20,10 +19,19 @@ public class AppBookMyStay {
         // Room search service
         RoomSearchService searchService = new RoomSearchService(inventory);
 
-        // Get available rooms
-        List<Room> availableRooms = searchService.getAvailableRooms(rooms);
+        // Booking requests
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
 
-        // Display
+        // Sample requests
+        bookingQueue.addRequest(new Reservation("Isai", "Single Room"));
+        bookingQueue.addRequest(new Reservation("Chris", "Suite Room"));
+        bookingQueue.addRequest(new Reservation("Alex", "Double Room"));
+
+        // Display booking queue
+        bookingQueue.displayQueue();
+
+        // Display available rooms (read-only)
+        List<Room> availableRooms = searchService.getAvailableRooms(rooms);
         searchService.displayAvailableRooms(availableRooms);
     }
 }
