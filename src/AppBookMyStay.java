@@ -5,17 +5,21 @@ public class AppBookMyStay {
         System.out.println("===== Welcome to BookMyStay =====");
 
         RoomInventory inventory = new RoomInventory();
+        HashMap<String, HashSet<String>> allocatedRooms = new HashMap<>();
         BookingService bookingService = new BookingService(inventory);
+        CancellationService cancellationService = new CancellationService(inventory, allocatedRooms);
 
-        // Test bookings
-        Reservation r1 = new Reservation("Isai", "Single Room"); // valid
-        Reservation r2 = new Reservation("", "Double Room"); // invalid guest
-        Reservation r3 = new Reservation("Chris", "Penthouse"); // invalid room type
-        Reservation r4 = new Reservation("Alex", "Suite Room"); // valid
-
+        // Example bookings
+        Reservation r1 = new Reservation("Isai", "Single Room");
         bookingService.confirmReservation(r1);
+
+        Reservation r2 = new Reservation("Alex", "Suite Room");
         bookingService.confirmReservation(r2);
-        bookingService.confirmReservation(r3);
-        bookingService.confirmReservation(r4);
+
+        // Example cancellation
+        cancellationService.cancelReservation(r1);
+
+        // Show rollback history
+        cancellationService.showRollbackHistory();
     }
 }
