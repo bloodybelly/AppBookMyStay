@@ -1,25 +1,30 @@
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class AppBookMyStay {
 
     public static void main(String[] args) {
 
-        System.out.println("===== Welcome to BookMyStay =====");
+        System.out.println("===== Welcome to BookMyStay Concurrent Booking Demo =====");
 
         RoomInventory inventory = new RoomInventory();
+        inventory.addRoomType("Single Room", 2);  // 2 available for demo
+        inventory.addRoomType("Double Room", 1);
+
         HashMap<String, HashSet<String>> allocatedRooms = new HashMap<>();
-        BookingService bookingService = new BookingService(inventory);
-        CancellationService cancellationService = new CancellationService(inventory, allocatedRooms);
+        ConcurrentBookingService bookingService = new ConcurrentBookingService(inventory, allocatedRooms);
 
-        // Example bookings
+        // Multiple guests submitting requests at the same time
         Reservation r1 = new Reservation("Isai", "Single Room");
-        bookingService.confirmReservation(r1);
+        Reservation r2 = new Reservation("Alex", "Single Room");
+        Reservation r3 = new Reservation("Chris", "Single Room"); // will test no availability
+        Reservation r4 = new Reservation("Luna", "Double Room");
 
-        Reservation r2 = new Reservation("Alex", "Suite Room");
-        bookingService.confirmReservation(r2);
+        bookingService.submitBookingRequest(r1);
+        bookingService.submitBookingRequest(r2);
+        bookingService.submitBookingRequest(r3);
+        bookingService.submitBookingRequest(r4);
 
-        // Example cancellation
-        cancellationService.cancelReservation(r1);
-
-        // Show rollback history
-        cancellationService.showRollbackHistory();
+        bookingService.processBookings(); // process all requests concurrently
     }
 }
