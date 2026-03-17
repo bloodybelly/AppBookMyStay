@@ -4,30 +4,30 @@ public class AppBookMyStay {
 
         System.out.println("===== Welcome to BookMyStay =====");
 
-        // Create room objects
+        // Room objects
         Room single = new SingleRoom();
         Room doubleRoom = new DoubleRoom();
         Room suite = new SuiteRoom();
 
-        // Static availability
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
+        // Inventory (NEW)
+        RoomInventory inventory = new RoomInventory();
 
-        // Display details
         System.out.println("\n--- Room Details ---");
 
         single.displayDetails();
-        System.out.println("Available: " + singleAvailable);
+        System.out.println("Available: " + inventory.getAvailability("Single Room"));
 
         System.out.println();
 
         doubleRoom.displayDetails();
-        System.out.println("Available: " + doubleAvailable);
+        System.out.println("Available: " + inventory.getAvailability("Double Room"));
 
         System.out.println();
 
         suite.displayDetails();
-        System.out.println("Available: " + suiteAvailable);
+        System.out.println("Available: " + inventory.getAvailability("Suite Room"));
+
+        // Show full inventory
+        inventory.displayInventory();
     }
 }
