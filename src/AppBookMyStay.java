@@ -1,33 +1,21 @@
-class BookingReportService {
+public class AppBookMyStay {
 
-    private BookingHistory history;
+    public static void main(String[] args) {
 
-    public BookingReportService(BookingHistory history) {
-        this.history = history;
-    }
+        System.out.println("===== Welcome to BookMyStay =====");
 
-    // Display all confirmed bookings
-    public void generateFullReport() {
-        System.out.println("\n--- Booking History Report ---");
-        for (Reservation res : history.getAllReservations()) {
-            System.out.println(res.getGuestName() + " | " +
-                    res.getRoomType() + " | " +
-                    res.getRoomID());
-        }
-    }
+        RoomInventory inventory = new RoomInventory();
+        BookingService bookingService = new BookingService(inventory);
 
-    // Summary: number of bookings per room type
-    public void generateSummary() {
-        System.out.println("\n--- Booking Summary ---");
-        var bookings = history.getAllReservations();
-        var summary = new java.util.HashMap<String, Integer>();
+        // Test bookings
+        Reservation r1 = new Reservation("Isai", "Single Room"); // valid
+        Reservation r2 = new Reservation("", "Double Room"); // invalid guest
+        Reservation r3 = new Reservation("Chris", "Penthouse"); // invalid room type
+        Reservation r4 = new Reservation("Alex", "Suite Room"); // valid
 
-        for (Reservation res : bookings) {
-            summary.put(res.getRoomType(), summary.getOrDefault(res.getRoomType(), 0) + 1);
-        }
-
-        for (String roomType : summary.keySet()) {
-            System.out.println(roomType + ": " + summary.get(roomType));
-        }
+        bookingService.confirmReservation(r1);
+        bookingService.confirmReservation(r2);
+        bookingService.confirmReservation(r3);
+        bookingService.confirmReservation(r4);
     }
 }

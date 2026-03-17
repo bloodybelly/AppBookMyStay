@@ -2,34 +2,28 @@ import java.util.HashMap;
 
 class RoomInventory {
 
-    private HashMap<String, Integer> inventory;
+    private HashMap<String, Integer> availability;
 
-    // Constructor
     public RoomInventory() {
-        inventory = new HashMap<>();
-
-        // Initialize availability
-        inventory.put("Single Room", 5);
-        inventory.put("Double Room", 3);
-        inventory.put("Suite Room", 2);
+        availability = new HashMap<>();
+        availability.put("Single Room", 5);
+        availability.put("Double Room", 3);
+        availability.put("Suite Room", 2);
     }
 
-    // Get availability
+    public boolean isValidRoomType(String roomType) {
+        return availability.containsKey(roomType);
+    }
+
     public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
+        return availability.getOrDefault(roomType, 0);
     }
 
-    // Update availability
-    public void updateAvailability(String roomType, int count) {
-        inventory.put(roomType, count);
-    }
-
-    // Display inventory
-    public void displayInventory() {
-        System.out.println("\n--- Room Inventory ---");
-
-        for (String roomType : inventory.keySet()) {
-            System.out.println(roomType + " Available: " + inventory.get(roomType));
+    public void decrementAvailability(String roomType) throws InvalidBookingException {
+        int avail = getAvailability(roomType);
+        if (avail <= 0) {
+            throw new InvalidBookingException("Cannot decrement availability. No rooms left for: " + roomType);
         }
+        availability.put(roomType, avail - 1);
     }
 }
