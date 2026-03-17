@@ -1,46 +1,39 @@
-import java.util.Arrays;
-import java.util.List;
-
 public class AppBookMyStay {
 
     public static void main(String[] args) {
 
         System.out.println("===== Welcome to BookMyStay =====");
 
-        // Room objects
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
-        List<Room> rooms = Arrays.asList(single, doubleRoom, suite);
-
-        // Inventory
+        // Inventory & Booking setup
         RoomInventory inventory = new RoomInventory();
-
-        // Room search service
-        RoomSearchService searchService = new RoomSearchService(inventory);
-
-        // Booking requests
         BookingRequestQueue bookingQueue = new BookingRequestQueue();
-
-        // Sample requests
-        bookingQueue.addRequest(new Reservation("Isai", "Single Room"));
-        bookingQueue.addRequest(new Reservation("Chris", "Suite Room"));
-        bookingQueue.addRequest(new Reservation("Alex", "Double Room"));
-        bookingQueue.addRequest(new Reservation("Luna", "Single Room"));
-
-        // Booking service
         BookingService bookingService = new BookingService(inventory);
 
-        // Process queue
+        // Sample bookings
+        bookingQueue.addRequest(new Reservation("Isai", "Single Room"));
+        bookingQueue.addRequest(new Reservation("Chris", "Suite Room"));
+
+        // Process reservations
         while (!bookingQueue.isEmpty()) {
             Reservation res = bookingQueue.getNextRequest();
             bookingService.confirmReservation(res);
         }
 
-        // Show allocations
-        bookingService.displayAllocations();
+        // Add-On Service Manager
+        AddOnServiceManager addOnManager = new AddOnServiceManager();
 
-        // Show updated inventory
-        inventory.displayInventory();
+        // Sample services
+        AddOnService breakfast = new AddOnService("Breakfast", 500);
+        AddOnService spa = new AddOnService("Spa Session", 1500);
+        AddOnService airport = new AddOnService("Airport Pickup", 700);
+
+        // Map services to reservations
+        addOnManager.addService("SI-5", breakfast);
+        addOnManager.addService("SI-5", spa);
+        addOnManager.addService("SU-2", airport);
+
+        // Display add-ons
+        addOnManager.displayAddOns("SI-5");
+        addOnManager.displayAddOns("SU-2");
     }
 }
